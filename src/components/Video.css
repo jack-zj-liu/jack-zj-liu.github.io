@@ -1,0 +1,7 @@
+.video_item {
+    display: flex;
+    height: 1000px;
+    flex: 1;
+    margin: 0 1rem;
+    border-radius: 10px;
+}
