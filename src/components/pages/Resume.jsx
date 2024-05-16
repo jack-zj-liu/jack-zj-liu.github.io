@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
+import './Resume.css';
 
 function Resume() {
   return (
-    <div>
-        <embed src='/images/resume2023jun.pdf' type="application/pdf" height="1000px"
-    width="100%" center />
-
+    <div className="pdf-container">
+        <embed src='/images/Resume_May_2024.pdf' type="application/pdf" height="1000px"
+        width="100%" center />
     </div>
   );
 }
