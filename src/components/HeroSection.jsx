@@ -18,7 +18,6 @@ function HeroSection() {
           buttonStyle='btn--outline'
           buttonSize='btn--large'
           onClick={handleButtonClick}
-          target='_blank'
           buttonLink='/'
         >
           youtube&nbsp; <i class="fa fa-file" aria-hidden="true"></i>
