@@ -20,7 +20,7 @@ function HeroSection() {
           onClick={handleButtonClick}
           buttonLink='/'
         >
-          youtube&nbsp; <i class="fa fa-file" aria-hidden="true"></i>
+          youtube&nbsp; <i class="fab fa-youtube" aria-hidden="true"></i>
           
         </Button>
         <Button
