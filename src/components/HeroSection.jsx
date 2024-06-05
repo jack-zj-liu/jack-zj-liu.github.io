@@ -13,9 +13,13 @@ function HeroSection() {
           className='btns'
           buttonStyle='btn--outline'
           buttonSize='btn--large'
-          buttonLink='/projects'
+          onClick='https://www.youtube.com/channel/UCfcmQb8K9XG8MFFZLIheoQA'
+          target='_blank'
         >
-          view projects&nbsp; <i class="fa-solid fa-signs-post"></i>
+          <a href="https://www.youtube.com/channel/UCfcmQb8K9XG8MFFZLIheoQA" target='_blank'>
+            youtube&nbsp; <i class="fab fa-youtube" aria-hidden="true"></i>
+          </a>
+          
         </Button>
         <Button
           className='btns'
@@ -24,7 +28,7 @@ function HeroSection() {
           buttonLink='/resume'
         >
           <a href="/images/Resume_May_2024.pdf" download = "Jack_Liu_Resume.pdf">
-            my resume&nbsp; <i class="fa fa-file" aria-hidden="true"></i>
+            resume&nbsp; <i class="fa fa-file" aria-hidden="true"></i>
           </a>
           
         </Button>
@@ -32,9 +36,18 @@ function HeroSection() {
           className='btns'
           buttonStyle='btn--outline'
           buttonSize='btn--large'
+          buttonLink='/projects'
+        >
+          projects&nbsp; <i class="fa-solid fa-signs-post"></i>
+        </Button>
+        
+        <Button
+          className='btns'
+          buttonStyle='btn--outline'
+          buttonSize='btn--large'
           buttonLink='/about'
         >
-          about me&nbsp; <i class="fa-solid fa-user"></i>
+          about&nbsp; <i class="fa-solid fa-user"></i>
         </Button>
       </div>
     </div>
