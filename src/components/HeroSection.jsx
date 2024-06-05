@@ -4,6 +4,10 @@ import { Button } from './Button';
 import './HeroSection.css';
 
 function HeroSection() {
+  const handleButtonClick = () => {
+    window.open('https://www.youtube.com/channel/UCfcmQb8K9XG8MFFZLIheoQA', '_blank')
+  };
+
   return (
     <div className='hero-container'>
       <h1>jack liu.</h1>
@@ -13,12 +17,11 @@ function HeroSection() {
           className='btns'
           buttonStyle='btn--outline'
           buttonSize='btn--large'
-          onClick='https://www.youtube.com/channel/UCfcmQb8K9XG8MFFZLIheoQA'
+          onClick={handleButtonClick}
           target='_blank'
+          buttonLink='/'
         >
-          <a href="https://www.youtube.com/channel/UCfcmQb8K9XG8MFFZLIheoQA" target='_blank'>
-            youtube&nbsp; <i class="fab fa-youtube" aria-hidden="true"></i>
-          </a>
+          youtube&nbsp; <i class="fa fa-file" aria-hidden="true"></i>
           
         </Button>
         <Button
