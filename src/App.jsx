@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as HashRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/pages/Home";
 import Animal from "./components/pages/Animal";
 import Projects from "./components/pages/Projects";
@@ -11,7 +11,7 @@ import Codenames from "./components/pages/Codenames";
 function App() {
   return (
     <>
-    <Router>
+    <HashRouter>
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="/animal" element={<Animal />} />
@@ -19,9 +19,9 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/resume" element={<Resume />} />
         <Route path="/codenames" element={<Codenames />} />
-        
+
       </Routes>
-    </Router>
+    </HashRouter>
   </>
   );
 }
