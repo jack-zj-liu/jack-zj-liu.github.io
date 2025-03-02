@@ -6,6 +6,7 @@ import Animal from "./components/pages/Animal";
 import Projects from "./components/pages/Projects";
 import About from "./components/pages/About";
 import Resume from "./components/pages/Resume";
+import Codenames from "./components/pages/Codenames";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Route path="/projects" element={<Projects />} />
         <Route path="/about" element={<About />} />
         <Route path="/resume" element={<Resume />} />
-
+        <Route path="/codenames" element={<Codenames />} />
       </Routes>
     </Router>
   </>
