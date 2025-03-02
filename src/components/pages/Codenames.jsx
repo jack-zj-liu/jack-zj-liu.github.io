@@ -69,7 +69,7 @@ function Codenames() {
   };
 
   return (
-    <div className="container">
+    <div className="codenames-container">
       <video className="background-video" autoPlay loop muted>
         <source src="/videos/jungle_background.mp4" type="video/mp4" />
         Your browser does not support the video tag.

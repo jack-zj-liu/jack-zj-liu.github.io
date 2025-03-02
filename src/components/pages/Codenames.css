@@ -1,14 +1,10 @@
-/* Apply to the entire document */
-html, body {
-  height: 100%;  /* Ensure the page takes up the full viewport height */
+/* Apply only to the Codenames page */
+.codenames-container {
+  height: 100vh;  /* Ensure the page takes up the full viewport height */
   margin: 0;     /* Remove default margin */
   padding: 0;    /* Remove default padding */
   overflow: hidden; /* Prevent scrollbar */
-}
-
-.container {
   display: flex;
-  height: 100vh;
   width: 100%;
   position: relative; /* To position the video behind the content */
 }
