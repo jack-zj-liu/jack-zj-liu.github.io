@@ -1,17 +1,23 @@
 # Deploying `jack-zj-liu.github.io`  
 
-## Building the `/dist` Directory  
+## To Test Locally
+Run the following command:  
+
+```sh
+npm run dev
+```
+
+## Build the `/dist` Directory and Deploy to GitHub Pages  
 After making edits, build the `/dist` directory by running:  
 
 ```sh
 npm run build
 ```
 
-## Deploying to GitHub Pages  
 To commit and push changes, follow these steps:  
 
 ```sh
-git add .
+git add *
 git commit -m "Your commit message here"
 git push
 ```
