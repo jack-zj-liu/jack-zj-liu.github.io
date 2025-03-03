@@ -1,7 +1,23 @@
-# jack-zj-liu.github.io
+# Deploying `jack-zj-liu.github.io`  
 
-# build dist directory
-$ npm run build
+## Building the `/dist` Directory  
+After making edits, build the `/dist` directory by running:  
 
-# push subtree (used for github pages)
-$ git subtree push --prefix dist origin gh-pages
+```sh
+npm run build
+```
+
+## Deploying to GitHub Pages  
+To commit and push changes, follow these steps:  
+
+```sh
+git add .
+git commit -m "Your commit message here"
+git push
+```
+
+Then, push the `dist` directory to the `gh-pages` branch:  
+
+```sh
+git subtree push --prefix dist origin gh-pages
+```
