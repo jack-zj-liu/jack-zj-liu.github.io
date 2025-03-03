@@ -12,7 +12,7 @@ function Profile() {
                     <div class="container">
                         <h2>Jack Liu</h2>
                         <p class="title">Software Engineering @ UWaterloo</p>
-                        <p>Hi! I'm a 3rd year software engineering student at the university of waterloo. </p>
+                        <p>Hi! I'm a second year software engineering student at the university of waterloo. </p>
                         <p> &nbsp; </p>
                         <p>Contact me at:  </p>
                         <p>jack.liuzijia@gmail.com</p>
