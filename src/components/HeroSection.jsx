@@ -29,7 +29,7 @@ function HeroSection() {
           buttonSize='btn--large'
           buttonLink='/resume'
         >
-          <a href="/images/Resume_May_2024.pdf" download = "Jack_Liu_Resume.pdf">
+          <a href="/resume" download="Jack_Liu_Resume.pdf">
             resume&nbsp; <i class="fa fa-file" aria-hidden="true"></i>
           </a>
           
