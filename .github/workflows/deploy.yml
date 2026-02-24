@@ -36,6 +36,12 @@ jobs:
           NPM_TOKEN: ""
           NPM_AUTH_TOKEN: ""
 
+      - name: Show npm debug log (on failure)
+        if: failure()
+        run: |
+          echo "=== npm debug log ==="
+          cat /home/runner/.npm/_logs/*.log 2>/dev/null || echo "No log file found"
+
       - name: Build
         run: npm run build
 
