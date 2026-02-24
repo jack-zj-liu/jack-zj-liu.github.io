@@ -29,10 +29,7 @@ function HeroSection() {
           buttonSize='btn--large'
           buttonLink='/resume'
         >
-          <a href="/resume" download="Jack_Liu_Resume.pdf">
-            resume&nbsp; <i class="fa fa-file" aria-hidden="true"></i>
-          </a>
-          
+          resume&nbsp; <i className="fa fa-file" aria-hidden="true"></i>
         </Button>
         <Button
           className='btns'
