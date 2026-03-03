@@ -128,3 +128,23 @@
 .btn-mobile {
   text-decoration: none;
 }
+
+/* Pitch detector: scrollbars blend with dark grey background */
+.pitch-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a40 #2a2a2e;
+}
+.pitch-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.pitch-scroll::-webkit-scrollbar-track {
+  background: #2a2a2e;
+}
+.pitch-scroll::-webkit-scrollbar-thumb {
+  background: #3a3a40;
+  border-radius: 5px;
+}
+.pitch-scroll::-webkit-scrollbar-thumb:hover {
+  background: #45454a;
+}

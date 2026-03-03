@@ -512,10 +512,17 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+.\!container{
+  width: 100% !important;
+}
 .container{
   width: 100%;
 }
 @media (min-width: 480px){
+
+  .\!container{
+    max-width: 480px !important;
+  }
 
   .container{
     max-width: 480px;
@@ -523,11 +530,19 @@ video {
 }
 @media (min-width: 620px){
 
+  .\!container{
+    max-width: 620px !important;
+  }
+
   .container{
     max-width: 620px;
   }
 }
 @media (min-width: 768px){
+
+  .\!container{
+    max-width: 768px !important;
+  }
 
   .container{
     max-width: 768px;
@@ -535,11 +550,19 @@ video {
 }
 @media (min-width: 1060px){
 
+  .\!container{
+    max-width: 1060px !important;
+  }
+
   .container{
     max-width: 1060px;
   }
 }
 @media (min-width: 1200px){
+
+  .\!container{
+    max-width: 1200px !important;
+  }
 
   .container{
     max-width: 1200px;
@@ -547,21 +570,47 @@ video {
 }
 @media (min-width: 1536px){
 
+  .\!container{
+    max-width: 1536px !important;
+  }
+
   .container{
     max-width: 1536px;
   }
 }
 @media (min-width: 1700px){
 
+  .\!container{
+    max-width: 1700px !important;
+  }
+
   .container{
     max-width: 1700px;
   }
 }
+.visible{
+  visibility: visible;
+}
 .fixed{
   position: fixed;
 }
+.block{
+  display: block;
+}
+.flex{
+  display: flex;
+}
+.grid{
+  display: grid;
+}
+.hidden{
+  display: none;
+}
 .resize{
   resize: both;
+}
+.border{
+  border-width: 1px;
 }
 
 :root {
@@ -686,6 +735,26 @@ video {
 
 .btn-mobile {
   text-decoration: none;
+}
+
+/* Pitch detector: scrollbars blend with dark grey background */
+.pitch-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a40 #2a2a2e;
+}
+.pitch-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.pitch-scroll::-webkit-scrollbar-track {
+  background: #2a2a2e;
+}
+.pitch-scroll::-webkit-scrollbar-thumb {
+  background: #3a3a40;
+  border-radius: 5px;
+}
+.pitch-scroll::-webkit-scrollbar-thumb:hover {
+  background: #45454a;
 }
 
 /*!*******************************************************************************************************************************************************************************************************************************************************************!*\

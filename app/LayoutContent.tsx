@@ -10,7 +10,7 @@ export default function LayoutContent({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const fullPage = pathname === '/codenames' || pathname === '/animal';
+  const fullPage = pathname === '/codenames' || pathname === '/animal' || pathname === '/pitch-detector';
 
   if (fullPage) {
     return <>{children}</>;

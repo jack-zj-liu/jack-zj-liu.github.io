@@ -46,6 +46,11 @@ export default function Navbar() {
               about
             </Link>
           </li>
+          <li className="nav-item">
+            <Link href="/pitch-detector" className="nav-links" onClick={closeMobileMenu}>
+              pitch
+            </Link>
+          </li>
         </ul>
       </div>
     </nav>

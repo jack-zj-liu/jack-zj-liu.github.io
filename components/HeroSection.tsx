@@ -22,14 +22,16 @@ export default function HeroSection() {
         >
           youtube&nbsp; <i className="fab fa-youtube" aria-hidden />
         </Button>
-        <Button
-          className="btns"
-          buttonStyle="btn--outline"
-          buttonSize="btn--large"
-          buttonLink="/resume"
+        <a
+          href="/images/resume_2026feb.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btns btn-mobile"
         >
-          resume&nbsp; <i className="fa fa-file" aria-hidden />
-        </Button>
+          <span className="btn btn--outline btn--large">
+            resume&nbsp; <i className="fa fa-file" aria-hidden />
+          </span>
+        </a>
         <Button
           className="btns"
           buttonStyle="btn--outline"
