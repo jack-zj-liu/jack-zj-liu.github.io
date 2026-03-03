@@ -13,6 +13,7 @@ type ButtonProps = {
   buttonStyle?: string;
   buttonSize?: string;
   buttonLink: string;
+  className?: string;
 };
 
 export function Button({
@@ -22,12 +23,13 @@ export function Button({
   buttonStyle,
   buttonSize,
   buttonLink,
+  className,
 }: ButtonProps) {
   const checkButtonStyle = STYLES.includes(buttonStyle ?? '') ? buttonStyle : STYLES[0];
   const checkButtonSize = SIZES.includes(buttonSize ?? '') ? buttonSize : SIZES[0];
 
   return (
-    <Link href={buttonLink} className="btn-mobile">
+    <Link href={buttonLink} className={className ?? 'btn-mobile'}>
       <button
         className={`btn ${checkButtonStyle} ${checkButtonSize}`}
         onClick={onClick}
