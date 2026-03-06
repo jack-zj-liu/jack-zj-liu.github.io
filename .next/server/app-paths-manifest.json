@@ -1,4 +1,4 @@
 {
-  "/pitch-detector/page": "app/pitch-detector/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/pitch-detector/page": "app/pitch-detector/page.js"
 }

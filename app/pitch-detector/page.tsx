@@ -21,6 +21,12 @@ const MIDI_SPAN = MIDI_MAX - MIDI_MIN + 1;
 const CANVAS_HEIGHT = PADDING.top + PADDING.bottom + MIDI_SPAN * PIXELS_PER_SEMITONE;
 const LOG_MAX_ENTRIES = 5;
 
+const GUITAR_STRING_MIDI = new Set([40, 45, 50, 55, 59, 64]);
+
+function isGuitarString(midi: number): boolean {
+  return GUITAR_STRING_MIDI.has(Math.round(midi));
+}
+
 function median(arr: number[]): number {
   if (arr.length === 0) return 0;
   const s = [...arr].sort((a, b) => a - b);
@@ -65,6 +71,7 @@ function isNaturalNote(midi: number): boolean {
 
 export default function PitchDetectorPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const labelCanvasRef = useRef<HTMLCanvasElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<'idle' | 'requesting' | 'running' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -85,36 +92,50 @@ export default function PitchDetectorPage() {
   // Resize: only horizontal canvas min width from viewport; height is fixed from zoom
   useEffect(() => {
     const updateSize = () => {
-      setCanvasMinWidth(Math.max(400, window.innerWidth - SIDEBAR_WIDTH));
+      setCanvasMinWidth(Math.max(400, window.innerWidth - SIDEBAR_WIDTH - LABEL_WIDTH));
     };
     updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  const draw = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number, currentMidi: number | null) => {
-    const graphWidth = width - PADDING.left - PADDING.right;
+  const drawLabels = useCallback((ctx: CanvasRenderingContext2D, height: number) => {
     const graphHeight = height - PADDING.top - PADDING.bottom;
     const midiRange = MIDI_MAX - MIDI_MIN;
+    ctx.fillStyle = '#2a2a2e';
+    ctx.fillRect(0, 0, LABEL_WIDTH, height);
+    for (let midi = MIDI_MIN; midi <= MIDI_MAX; midi++) {
+      if (!isNaturalNote(midi)) continue;
+      const t = (midi - MIDI_MIN) / midiRange;
+      const y = PADDING.top + (1 - t) * graphHeight;
+      const isGuitar = isGuitarString(midi);
+      ctx.font = isGuitar ? 'bold 16px sans-serif' : '16px sans-serif';
+      ctx.fillStyle = isGuitar ? '#c4c8cc' : '#9ca3af';
+      ctx.fillText(midiToNoteLabel(midi), LABEL_INSET, y + 4);
+    }
+  }, []);
+
+  const draw = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number, currentMidi: number | null, hasSound: boolean) => {
+    const graphWidth = width - PADDING.right;
+    const graphHeight = height - PADDING.top - PADDING.bottom;
+    const midiRange = MIDI_MAX - MIDI_MIN;
+    const graphLeft = 0;
+    const graphRight = width - PADDING.right;
 
     ctx.fillStyle = '#2a2a2e';
     ctx.fillRect(0, 0, width, height);
 
-    // Y-axis: grid lines (natural notes thicker), labels for natural notes only
-    ctx.font = '16px sans-serif';
-    ctx.strokeStyle = '#3a3a40';
+    // Grid lines only (labels on fixed left canvas)
     for (let midi = MIDI_MIN; midi <= MIDI_MAX; midi++) {
       const t = (midi - MIDI_MIN) / midiRange;
       const y = PADDING.top + (1 - t) * graphHeight;
-      ctx.lineWidth = isNaturalNote(midi) ? 2 : 1;
+      const isGuitar = isGuitarString(midi);
+      ctx.strokeStyle = isGuitar ? '#505058' : '#3a3a40';
+      ctx.lineWidth = isGuitar ? 2 : (isNaturalNote(midi) ? 2 : 1);
       ctx.beginPath();
-      ctx.moveTo(PADDING.left, y);
-      ctx.lineTo(width - PADDING.right, y);
+      ctx.moveTo(graphLeft, y);
+      ctx.lineTo(graphRight, y);
       ctx.stroke();
-      if (isNaturalNote(midi)) {
-        ctx.fillStyle = '#9ca3af';
-        ctx.fillText(midiToNoteLabel(midi), LABEL_INSET, y + 4);
-      }
     }
 
     // Pitch history line: 1 pixel per sample, newest on the right
@@ -129,24 +150,33 @@ export default function PitchDetectorPage() {
         if (midi == null || !Number.isFinite(midi)) continue;
         const t = (Math.max(MIDI_MIN, Math.min(MIDI_MAX, midi)) - MIDI_MIN) / midiRange;
         const y = PADDING.top + (1 - t) * graphHeight;
-        const x = PADDING.left + i;
+        const x = graphLeft + i;
         if (i === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
       ctx.stroke();
     }
 
-    // Current pitch: yellow horizontal line
+    // Current pitch line: glow when sound above gate
     if (currentMidi != null && Number.isFinite(currentMidi)) {
       const clampedMidi = Math.max(MIDI_MIN, Math.min(MIDI_MAX, currentMidi));
       const t = (clampedMidi - MIDI_MIN) / midiRange;
       const y = PADDING.top + (1 - t) * graphHeight;
-      ctx.strokeStyle = '#93c5fd';
-      ctx.lineWidth = 2;
+      const lineColor = hasSound ? '#bae6fd' : '#93c5fd';
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = hasSound ? 3.5 : 2;
+      if (hasSound) {
+        ctx.shadowColor = '#bae6fd';
+        ctx.shadowBlur = 28;
+      }
       ctx.beginPath();
-      ctx.moveTo(PADDING.left, y);
-      ctx.lineTo(width - PADDING.right, y);
+      ctx.moveTo(graphLeft, y);
+      ctx.lineTo(graphRight, y);
       ctx.stroke();
+      if (hasSound) {
+        ctx.shadowBlur = 0;
+        ctx.shadowColor = 'transparent';
+      }
     }
   }, []);
 
@@ -225,14 +255,22 @@ export default function PitchDetectorPage() {
 
       // Canvas width = at least viewport width, or buffer length so it grows and scrolls
       const minWidth = container.clientWidth;
-      const newWidth = Math.max(minWidth, buf.length + PADDING.left + PADDING.right);
+      const newWidth = Math.max(minWidth, buf.length + PADDING.right);
       if (canvas.width !== newWidth) {
         canvas.width = newWidth;
         canvas.style.width = `${newWidth}px`;
       }
       canvas.height = CANVAS_HEIGHT;
 
-      draw(ctx, canvas.width, canvas.height, currentMidi);
+      draw(ctx, canvas.width, canvas.height, currentMidi, aboveGate);
+
+      const labelCanvas = labelCanvasRef.current;
+      if (labelCanvas) {
+        labelCanvas.width = LABEL_WIDTH;
+        labelCanvas.height = CANVAS_HEIGHT;
+        const labelCtx = labelCanvas.getContext('2d');
+        if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT);
+      }
 
       // Keep scrolled to the right so newest pitch is visible
       container.scrollLeft = container.scrollWidth - container.clientWidth;
@@ -242,7 +280,7 @@ export default function PitchDetectorPage() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [status, draw, canvasMinWidth]);
+  }, [status, draw, drawLabels, canvasMinWidth]);
 
   // Draw grid when idle and canvas size changes (so screen isn’t blank)
   useEffect(() => {
@@ -252,8 +290,15 @@ export default function PitchDetectorPage() {
     if (!ctx) return;
     canvas.width = canvasMinWidth;
     canvas.height = CANVAS_HEIGHT;
-    draw(ctx, canvas.width, canvas.height, null);
-  }, [status, canvasMinWidth, draw]);
+    draw(ctx, canvas.width, canvas.height, null, false);
+    const labelCanvas = labelCanvasRef.current;
+    if (labelCanvas) {
+      labelCanvas.width = LABEL_WIDTH;
+      labelCanvas.height = CANVAS_HEIGHT;
+      const labelCtx = labelCanvas.getContext('2d');
+      if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT);
+    }
+  }, [status, canvasMinWidth, draw, drawLabels]);
 
   const startMic = useCallback(async () => {
     setStatus('requesting');
@@ -376,6 +421,14 @@ export default function PitchDetectorPage() {
 
       {/* Full-screen scrollable canvas + sidebar */}
       <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'row' }}>
+        <div style={{ width: LABEL_WIDTH, flexShrink: 0, background: '#2a2a2e' }}>
+          <canvas
+            ref={labelCanvasRef}
+            width={LABEL_WIDTH}
+            height={CANVAS_HEIGHT}
+            style={{ display: 'block' }}
+          />
+        </div>
         <div
           ref={scrollContainerRef}
           className="pitch-scroll"
