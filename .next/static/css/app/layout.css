@@ -766,24 +766,30 @@ body {
   text-decoration: none;
 }
 
-/* Scrollbars blend with dark grey background */
-.pitch-scroll {
+/* Global scrollbar: light blue to dark grey gradient */
+* {
   scrollbar-width: thin;
-  scrollbar-color: #3a3a40 #2a2a2e;
+  scrollbar-color: #4a6a7a #1f1f23;
 }
-.pitch-scroll::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
-.pitch-scroll::-webkit-scrollbar-track {
-  background: #2a2a2e;
+::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #252a30 0%, #1f1f23 100%);
 }
-.pitch-scroll::-webkit-scrollbar-thumb {
-  background: #3a3a40;
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7dd3fc 0%, #3a4450 60%, #2a2a2e 100%);
   border-radius: 5px;
 }
-.pitch-scroll::-webkit-scrollbar-thumb:hover {
-  background: #45454a;
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #93c5fd 0%, #4a6a7a 60%, #3a3a40 100%);
+}
+
+/* Pitch detector scrollbar override */
+.pitch-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #4a6a7a #2a2a2e;
 }
 
 .pitch-detector-app .pitch-btn:active {
