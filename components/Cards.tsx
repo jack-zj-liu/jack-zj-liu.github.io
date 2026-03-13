@@ -12,7 +12,7 @@ const HOME_CARDS = [
 export default function Cards() {
   return (
     <div className="cards">
-      <h1 className="title">here are some of my sample projects...</h1>
+      <h1 className="title">here are some things i&apos;ve built...</h1>
       <div className="cards__container">
         <div className="cards__wrapper">
           <ul className="cards__items">

@@ -24,7 +24,8 @@
   flex-direction: column;
   align-items: center;
   width: 150px;
-  background-color: rgba(244, 244, 244, 0.8);
+  background-color: rgba(31, 31, 35, 0.9);
+  border-right: 1px solid #3a3a40;
   padding: 20px 0;
   position: fixed;
   top: 0;
@@ -39,18 +40,20 @@
   margin: 5px 0;
   font-size: 16px;
   cursor: pointer;
-  border: none;
-  background-color: #2f6a4f;
-  color: white;
-  border-radius: 5px;
-  transition: background 0.3s, box-shadow 0.3s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #3a3a40;
+  background-color: #2a2a2e;
+  color: #e5e5e7;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  box-shadow: none;
   text-align: center;
 }
 
 .button:hover {
-  background-color: #1e4f36;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #7dd3fc;
+  color: #1e293b;
+  border-color: #7dd3fc;
+  box-shadow: 0 0 12px rgba(125, 211, 252, 0.25);
 }
 
 .main-content {
@@ -67,11 +70,12 @@
 }
 
 .textbox {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  background-color: rgba(42, 42, 46, 0.92);
+  border: 1px solid #3a3a40;
+  border-radius: 8px;
   outline: none;
   font-size: 16px;
+  color: #e5e5e7;
   width: 70%;
   height: 80%;
   padding: 20px;
@@ -81,17 +85,18 @@
 }
 
 .textbox.full-height:focus {
-  border-color: #007bff;
+  border-color: #7dd3fc;
   transition: border-color 0.3s ease;
 }
 
 .copy-notification {
   position: fixed;
-  background-color: #4caf50;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
+  background-color: #7dd3fc;
+  color: #1e293b;
+  padding: 10px 16px;
+  border-radius: 6px;
   font-size: 16px;
+  font-weight: 600;
   z-index: 9999;
   opacity: 1;
   transition: opacity 0.5s ease-out;

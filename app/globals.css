@@ -6,14 +6,14 @@
 @tailwind utilities;
 
 :root {
-  --black-gradient: linear-gradient(
-    144.39deg,
-    #ffffff -278.56%,
-    #6d6d6d -78.47%,
-    #11101d 91.61%
-  );
-  --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
-  --primary: #fff;
+  --bg-dark: #1f1f23;
+  --bg-card: #2a2a2e;
+  --border: #3a3a40;
+  --accent: #7dd3fc;
+  --accent-mid: #93c5fd;
+  --text: #e5e5e7;
+  --text-muted: #9ca3af;
+  --card-shadow: 0px 8px 32px -8px rgba(125, 211, 252, 0.08);
 }
 
 * {
@@ -24,15 +24,17 @@
   font-family: 'PT Sans', sans-serif;
 }
 
+body {
+  background: var(--bg-dark);
+  color: var(--text);
+}
+
 .text-gradient {
-  background: radial-gradient(
-    64.18% 64.18% at 71.16% 35.69%,
-    #def9fa 0.89%,
-    #bef3f5 17.23%,
-    #9dedf0 42.04%,
-    #7de7eb 55.12%,
-    #5ce1e6 71.54%,
-    #33bbcf 100%
+  background: linear-gradient(
+    135deg,
+    #bae6fd 0%,
+    #7dd3fc 40%,
+    #93c5fd 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -41,27 +43,23 @@
 
 .bg-blue-gradient {
   background: linear-gradient(
-    157.81deg,
-    #def9fa -43.27%,
-    #bef3f5 -21.24%,
-    #9dedf0 12.19%,
-    #7de7eb 29.82%,
-    #5ce1e6 51.94%,
-    #33bbcf 90.29%
+    135deg,
+    #bae6fd 0%,
+    #7dd3fc 50%,
+    #93c5fd 100%
   );
 }
 
 .bg-black-gradient {
   background: linear-gradient(
     144.39deg,
-    #ffffff -278.56%,
-    #6d6d6d -78.47%,
-    #11101d 91.61%
+    #3a3a40 -78.47%,
+    #1f1f23 91.61%
   );
 }
 
 .box-shadow {
-  box-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .sidebar {
@@ -78,34 +76,45 @@
 }
 
 .feature-card:hover {
-  background: var(--black-gradient);
+  background: var(--bg-card);
   box-shadow: var(--card-shadow);
 }
 
 .feedback-card:hover {
-  background: var(--black-gradient);
+  background: var(--bg-card);
 }
 
 .btn {
   padding: 8px 20px;
-  border-radius: 2px;
+  border-radius: 6px;
   outline: none;
   border: none;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .btn--primary {
-  background-color: var(--primary);
-  color: #242424;
-  border: 1px solid var(--primary);
+  background-color: var(--accent);
+  color: #1e293b;
+  border: 1px solid var(--accent);
+}
+
+.btn--primary:hover {
+  background-color: #bae6fd;
+  box-shadow: 0 0 16px rgba(125, 211, 252, 0.3);
 }
 
 .btn--outline {
   background-color: transparent;
-  color: #fff;
+  color: var(--text);
   padding: 8px 20px;
-  border: 1px solid var(--primary);
+  border: 1px solid var(--accent);
   transition: all 0.3s ease-out;
+}
+
+.btn--outline:hover {
+  background: var(--accent);
+  color: #1e293b;
 }
 
 .btn--medium {
@@ -120,8 +129,8 @@
 
 .btn--medium:hover,
 .btn--large:hover {
-  background: #fff;
-  color: #242424;
+  background: var(--accent);
+  color: #1e293b;
   transition: 250ms;
 }
 
@@ -129,7 +138,7 @@
   text-decoration: none;
 }
 
-/* Pitch detector: scrollbars blend with dark grey background */
+/* Scrollbars blend with dark grey background */
 .pitch-scroll {
   scrollbar-width: thin;
   scrollbar-color: #3a3a40 #2a2a2e;
@@ -147,4 +156,8 @@
 }
 .pitch-scroll::-webkit-scrollbar-thumb:hover {
   background: #45454a;
+}
+
+.pitch-detector-app .pitch-btn:active {
+  box-shadow: 0 0 20px rgba(125, 211, 252, 0.7);
 }

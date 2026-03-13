@@ -38,17 +38,12 @@ export default function Navbar() {
           </li>
           <li className="nav-item">
             <Link href="/projects" className="nav-links" onClick={closeMobileMenu}>
-              projects
+              tools
             </Link>
           </li>
           <li className="nav-item">
             <Link href="/about" className="nav-links" onClick={closeMobileMenu}>
               about
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link href="/pitch-detector" className="nav-links" onClick={closeMobileMenu}>
-              pitch
             </Link>
           </li>
         </ul>

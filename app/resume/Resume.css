@@ -1,5 +1,6 @@
 .pdf-container {
   overflow: hidden;
+  background: #1f1f23;
 }
 
 .pdf-container embed {

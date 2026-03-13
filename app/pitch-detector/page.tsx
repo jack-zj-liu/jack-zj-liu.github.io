@@ -78,9 +78,8 @@ export default function PitchDetectorPage() {
   const [canvasMinWidth, setCanvasMinWidth] = useState(800);
   const [currentReading, setCurrentReading] = useState<{ freq: number; midi: number; note: string } | null>(null);
   const [logEntries, setLogEntries] = useState<Array<{ freq: number; midi: number; note: string; at: number }>>([]);
-  const [rawDebug, setRawDebug] = useState<{ freq: number | null; inRange: boolean; reason?: string } | null>(null);
+  const [boldGuitarStrings, setBoldGuitarStrings] = useState(true);
   const lastLogTimeRef = useRef(0);
-  const lastRawDebugRef = useRef(0);
   const streamRef = useRef<MediaStream | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -99,7 +98,9 @@ export default function PitchDetectorPage() {
     return () => window.removeEventListener('resize', updateSize);
   }, []);
 
-  const drawLabels = useCallback((ctx: CanvasRenderingContext2D, height: number) => {
+  // Removed: scroll sync is handled by shared scroll container
+
+  const drawLabels = useCallback((ctx: CanvasRenderingContext2D, height: number, boldGuitar: boolean) => {
     const graphHeight = height - PADDING.top - PADDING.bottom;
     const midiRange = MIDI_MAX - MIDI_MIN;
     ctx.fillStyle = '#2a2a2e';
@@ -109,14 +110,13 @@ export default function PitchDetectorPage() {
       const t = (midi - MIDI_MIN) / midiRange;
       const y = PADDING.top + (1 - t) * graphHeight;
       const isGuitar = isGuitarString(midi);
-      ctx.font = isGuitar ? 'bold 16px sans-serif' : '16px sans-serif';
+      ctx.font = (boldGuitar && isGuitar) ? 'bold 16px sans-serif' : '16px sans-serif';
       ctx.fillStyle = isGuitar ? '#c4c8cc' : '#9ca3af';
       ctx.fillText(midiToNoteLabel(midi), LABEL_INSET, y + 4);
     }
   }, []);
 
-  const draw = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number, currentMidi: number | null, hasSound: boolean) => {
-    const graphWidth = width - PADDING.right;
+  const draw = useCallback((ctx: CanvasRenderingContext2D, width: number, height: number, currentMidi: number | null, hasSound: boolean, boldGuitar: boolean) => {
     const graphHeight = height - PADDING.top - PADDING.bottom;
     const midiRange = MIDI_MAX - MIDI_MIN;
     const graphLeft = 0;
@@ -130,8 +130,9 @@ export default function PitchDetectorPage() {
       const t = (midi - MIDI_MIN) / midiRange;
       const y = PADDING.top + (1 - t) * graphHeight;
       const isGuitar = isGuitarString(midi);
-      ctx.strokeStyle = isGuitar ? '#505058' : '#3a3a40';
-      ctx.lineWidth = isGuitar ? 2 : (isNaturalNote(midi) ? 2 : 1);
+      const useGuitarStyle = boldGuitar && isGuitar;
+      ctx.strokeStyle = useGuitarStyle ? '#505058' : '#3a3a40';
+      ctx.lineWidth = useGuitarStyle ? 2 : (isNaturalNote(midi) ? 2 : 1);
       ctx.beginPath();
       ctx.moveTo(graphLeft, y);
       ctx.lineTo(graphRight, y);
@@ -216,18 +217,6 @@ export default function PitchDetectorPage() {
       const midi = freq != null ? hzToMidi(freq) : null;
 
       const now = Date.now();
-      if (now - lastRawDebugRef.current > 200) {
-        lastRawDebugRef.current = now;
-        let reason: string | undefined;
-        if (!aboveGate) reason = 'quiet (below gate)';
-        else if (rawFreq == null) reason = 'no pitch';
-        else if (!inRange) reason = 'out of voice range';
-        setRawDebug({
-          freq: rawFreq ?? null,
-          inRange: inRange && aboveGate,
-          reason,
-        });
-      }
 
       const buf = bufferRef.current;
       const recent = recentMidiRef.current;
@@ -262,14 +251,14 @@ export default function PitchDetectorPage() {
       }
       canvas.height = CANVAS_HEIGHT;
 
-      draw(ctx, canvas.width, canvas.height, currentMidi, aboveGate);
+      draw(ctx, canvas.width, canvas.height, currentMidi, aboveGate, boldGuitarStrings);
 
       const labelCanvas = labelCanvasRef.current;
       if (labelCanvas) {
         labelCanvas.width = LABEL_WIDTH;
         labelCanvas.height = CANVAS_HEIGHT;
         const labelCtx = labelCanvas.getContext('2d');
-        if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT);
+        if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT, boldGuitarStrings);
       }
 
       // Keep scrolled to the right so newest pitch is visible
@@ -280,7 +269,7 @@ export default function PitchDetectorPage() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [status, draw, drawLabels, canvasMinWidth]);
+  }, [status, draw, drawLabels, canvasMinWidth, boldGuitarStrings]);
 
   // Draw grid when idle and canvas size changes (so screen isn’t blank)
   useEffect(() => {
@@ -290,15 +279,15 @@ export default function PitchDetectorPage() {
     if (!ctx) return;
     canvas.width = canvasMinWidth;
     canvas.height = CANVAS_HEIGHT;
-    draw(ctx, canvas.width, canvas.height, null, false);
+    draw(ctx, canvas.width, canvas.height, null, false, boldGuitarStrings);
     const labelCanvas = labelCanvasRef.current;
     if (labelCanvas) {
       labelCanvas.width = LABEL_WIDTH;
       labelCanvas.height = CANVAS_HEIGHT;
       const labelCtx = labelCanvas.getContext('2d');
-      if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT);
+      if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT, boldGuitarStrings);
     }
-  }, [status, canvasMinWidth, draw, drawLabels]);
+  }, [status, canvasMinWidth, draw, drawLabels, boldGuitarStrings]);
 
   const startMic = useCallback(async () => {
     setStatus('requesting');
@@ -351,7 +340,6 @@ export default function PitchDetectorPage() {
     detectPitchRef.current = null;
     setStatus('idle');
     setErrorMessage(null);
-    setRawDebug(null);
   }, []);
 
   useEffect(() => {
@@ -381,6 +369,7 @@ export default function PitchDetectorPage() {
           {errorMessage && <span style={{ color: '#f87171', fontSize: 14 }}>{errorMessage}</span>}
           <button
             type="button"
+            className="pitch-btn"
             onClick={startMic}
             disabled={status === 'requesting' || status === 'running'}
             style={{
@@ -400,6 +389,7 @@ export default function PitchDetectorPage() {
           {status === 'running' && (
             <button
               type="button"
+              className="pitch-btn"
               onClick={stopMic}
               style={{
                 padding: '8px 16px',
@@ -421,14 +411,6 @@ export default function PitchDetectorPage() {
 
       {/* Full-screen scrollable canvas + sidebar */}
       <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'row' }}>
-        <div style={{ width: LABEL_WIDTH, flexShrink: 0, background: '#2a2a2e' }}>
-          <canvas
-            ref={labelCanvasRef}
-            width={LABEL_WIDTH}
-            height={CANVAS_HEIGHT}
-            style={{ display: 'block' }}
-          />
-        </div>
         <div
           ref={scrollContainerRef}
           className="pitch-scroll"
@@ -436,19 +418,24 @@ export default function PitchDetectorPage() {
             flex: 1,
             minWidth: 0,
             minHeight: 0,
-            overflow: status === 'running' ? 'auto' : 'hidden',
+            overflow: 'auto',
             background: '#2a2a2e',
           }}
         >
-          <canvas
-            ref={canvasRef}
-            width={canvasMinWidth}
-            height={CANVAS_HEIGHT}
-            style={{
-              display: 'block',
-              minWidth: '100%',
-            }}
-          />
+          <div style={{ display: 'flex', flexDirection: 'row', width: 'max-content', minWidth: '100%' }}>
+            <canvas
+              ref={labelCanvasRef}
+              width={LABEL_WIDTH}
+              height={CANVAS_HEIGHT}
+              style={{ display: 'block', position: 'sticky', left: 0, zIndex: 1, flexShrink: 0 }}
+            />
+            <canvas
+              ref={canvasRef}
+              width={canvasMinWidth}
+              height={CANVAS_HEIGHT}
+              style={{ display: 'block', flexShrink: 0 }}
+            />
+          </div>
         </div>
 
         {/* Sidebar: current pitch + log */}
@@ -475,30 +462,21 @@ export default function PitchDetectorPage() {
           ) : (
             <div style={{ color: '#6b7280', marginBottom: 16 }}>—</div>
           )}
-          {status === 'running' && (
-            <>
-              <div style={{ fontWeight: 600, color: '#e5e5e7', marginBottom: 6, marginTop: 4 }}>Raw (debug)</div>
-              <div style={{ fontSize: 11, color: '#9ca3af', marginBottom: 12 }}>
-                {rawDebug === null ? (
-                  '—'
-                ) : rawDebug.inRange ? (
-                  <span style={{ color: '#7dd3fc' }}>{rawDebug.freq!.toFixed(0)} Hz (accepted)</span>
-                ) : rawDebug.reason ? (
-                  <span style={{ color: '#f87171' }}>{rawDebug.reason}</span>
-                ) : rawDebug.freq !== null ? (
-                  <span style={{ color: '#f87171' }}>{rawDebug.freq.toFixed(0)} Hz (ignored)</span>
-                ) : (
-                  'No pitch detected'
-                )}
-              </div>
-            </>
-          )}
           <div style={{ flex: 1, minHeight: 0 }} />
-            <div style={{ flexShrink: 0, borderTop: '1px solid #3a3a40', paddingTop: 8, marginTop: 4 }}>
+          <div style={{ flexShrink: 0, borderTop: '1px solid #3a3a40', paddingTop: 8, marginTop: 4 }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10, cursor: 'pointer', color: '#9ca3af', fontSize: 13 }}>
+              <input
+                type="checkbox"
+                checked={boldGuitarStrings}
+                onChange={(e) => setBoldGuitarStrings(e.target.checked)}
+                style={{ width: 16, height: 16, accentColor: '#7dd3fc' }}
+              />
+              Bold guitar strings (EADGBe)
+            </label>
             <div style={{ fontWeight: 600, color: '#e5e5e7', marginBottom: 6 }}>Log</div>
             <div style={{ fontFamily: 'monospace', fontSize: 11, overflow: 'hidden' }}>
               {logEntries.length === 0 && <div style={{ color: '#6b7280' }}>No entries yet</div>}
-              {[...logEntries].slice(-LOG_MAX_ENTRIES).reverse().map((entry, i) => (
+              {[...logEntries].slice(-LOG_MAX_ENTRIES).map((entry, i) => (
                 <div key={`${entry.at}-${i}`} style={{ marginBottom: 4, color: '#9ca3af' }}>
                   {midiToNoteLabel(entry.midi)} · {entry.freq.toFixed(0)} Hz
                 </div>

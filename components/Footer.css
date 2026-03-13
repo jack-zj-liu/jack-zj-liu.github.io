@@ -1,5 +1,6 @@
 .footer-container {
-  background: linear-gradient(90deg, rgb(228, 243, 255) 0%, rgb(26, 23, 23) 100%);
+  background: #1f1f23;
+  border-top: 1px solid #3a3a40;
   padding: 4rem 0 2rem 0;
   display: flex;
   flex-direction: column;
@@ -8,8 +9,13 @@
 }
 
 .social-icon-link {
-  color: #fff;
+  color: #9ca3af;
   font-size: 24px;
+  transition: color 0.2s ease;
+}
+
+.social-icon-link:hover {
+  color: #7dd3fc;
 }
 
 .social-media {
@@ -34,7 +40,7 @@
 }
 
 .social-logo {
-  color: #fff;
+  color: #e5e5e7;
   justify-self: start;
   margin-left: 20px;
   cursor: pointer;
@@ -46,7 +52,7 @@
 }
 
 .website-rights {
-  color: #fff;
+  color: #6b7280;
   margin-bottom: 16px;
 }
 

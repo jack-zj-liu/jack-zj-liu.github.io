@@ -38,7 +38,7 @@ export default function HeroSection() {
           buttonSize="btn--large"
           buttonLink="/projects"
         >
-          projects&nbsp; <i className="fa-solid fa-signs-post" />
+          tools&nbsp; <i className="fa-solid fa-signs-post" />
         </Button>
         <Button
           className="btns"
