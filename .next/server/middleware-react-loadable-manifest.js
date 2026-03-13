@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"app/pitch-detector/page.tsx -> pitchfinder\":{\"id\":\"app/pitch-detector/page.tsx -> pitchfinder\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_pitchfinder_lib_index_js.js\"]}}"
+self.__REACT_LOADABLE_MANIFEST='{"app/pitch-detector/page.tsx -> pitchfinder":{"id":765,"files":["static/chunks/765.80a34da9f919d1d2.js"]}}';

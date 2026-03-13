@@ -78,7 +78,7 @@ const SECTIONS: Section[] = [
       { label: 'Run', text: 'ε=ε=ε=┌(;*´Д`)ﾉ' },
       { label: 'Rage', text: '(ノಠ益ಠ)ノ彡┻━┻' },
       { label: 'Glare', text: '(¬_¬")' },
-      { label: 'Punch', text: 'O=('-'Q)' },
+      { label: 'Punch', text: "O=('-'Q)" },
       { label: 'Grr', text: '(╬≖_≖)' },
       { label: 'Stomp', text: '(ꐦ°᷄д°᷅)' },
     ],
