@@ -1,7 +1,8 @@
 {
-  "/page": "app/page.js",
   "/projects/page": "app/projects/page.js",
   "/codenames/page": "app/codenames/page.js",
-  "/about/page": "app/about/page.js",
-  "/pitch-detector/page": "app/pitch-detector/page.js"
+  "/emote/page": "app/emote/page.js",
+  "/moosic/page": "app/moosic/page.js",
+  "/page": "app/page.js",
+  "/about/page": "app/about/page.js"
 }

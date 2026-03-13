@@ -594,6 +594,12 @@ video {
 .fixed{
   position: fixed;
 }
+.absolute{
+  position: absolute;
+}
+.relative{
+  position: relative;
+}
 .sticky{
   position: sticky;
 }
@@ -609,11 +615,17 @@ video {
 .hidden{
   display: none;
 }
+.transform{
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
 .resize{
   resize: both;
 }
 .border{
   border-width: 1px;
+}
+.filter{
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 .transition{
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
@@ -782,8 +794,8 @@ body {
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[3]!./components/Navbar.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************/
 .navbar {
-  background: #1f1f23;
-  border-bottom: 1px solid #3a3a40;
+  background: #252a30;
+  border-bottom: 1px solid #3a4450;
   box-shadow: 0 4px 24px rgba(125, 211, 252, 0.10), 0 1px 6px rgba(125, 211, 252, 0.06);
   height: 70px;
   display: flex;
@@ -867,7 +879,7 @@ body {
   }
 
   .nav-menu.active {
-    background: #1f1f23;
+    background: #252a30;
     left: 0;
     opacity: 1;
     transition: all 0.5s ease;
@@ -915,8 +927,8 @@ body {
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[12].use[3]!./components/Footer.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************/
 .footer-container {
-  background: #1f1f23;
-  border-top: 1px solid #3a3a40;
+  background: #252a30;
+  border-top: 1px solid #3a4450;
   padding: 4rem 0 2rem 0;
   display: flex;
   flex-direction: column;

@@ -38,6 +38,11 @@
       "static/chunks/main-app.js",
       "static/css/app/codenames/page.css",
       "static/chunks/app/codenames/page.js"
+    ],
+    "/moosic/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/moosic/page.js"
     ]
   }
 }

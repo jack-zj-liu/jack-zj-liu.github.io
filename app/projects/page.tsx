@@ -18,6 +18,11 @@ const TOOLS = [
     description: 'Word packs for the Codenames board game.',
     href: '/codenames',
   },
+  {
+    title: 'Moosic',
+    description: 'Songs I like — pulled live from a YouTube playlist.',
+    href: '/moosic',
+  },
 ];
 
 export default function ProjectsPage() {

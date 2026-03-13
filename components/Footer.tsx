@@ -19,10 +19,10 @@ export default function Footer() {
             <a className="social-icon-link twitter" target="_blank" rel="noopener noreferrer" href="https://twitter.com/leeds9z">
               <i className="fab fa-twitter" />
             </a>
-            <a className="social-icon-link github" target="_blank" rel="noopener noreferrer" href="https://github.com/leeds9z">
+            <a className="social-icon-link github" target="_blank" rel="noopener noreferrer" href="https://github.com/jack-zj-liu">
               <i className="fab fa-github" />
             </a>
-            <a className="social-icon-link linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/leeds9z/">
+            <a className="social-icon-link linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/jack-zj-liu/">
               <i className="fab fa-linkedin" />
             </a>
           </div>
