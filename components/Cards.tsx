@@ -2,11 +2,11 @@ import CardItem from './CardItem';
 import './Cards.css';
 
 const HOME_CARDS = [
-  { src: '/images/stock.jpg', text: 'stock and crypto tracker', label: 'reactJS + python + beautifulsoup', path: 'https://github.com/leeds9z/price-fetcher' },
+  { src: '/images/stock.jpg', text: 'stock and crypto tracker', label: 'reactjs + python + beautifulsoup', path: 'https://github.com/leeds9z/price-fetcher' },
   { src: '/images/discordbot.png', text: 'discord trading bot', label: 'python', path: 'https://github.com/leeds9z/discord-bot' },
-  { src: '/images/code.jpg', text: 'competitive programming templates', label: 'C++', path: 'https://github.com/leeds9z/competitive-programing-templates' },
-  { src: '/images/thiswebsite.png', text: 'this website!', label: 'reactJS + css', path: '/' },
-  { src: '/images/monkey.jpg', text: 'monkey voice assistant', label: 'rasberry pi + gTTS', path: 'https://github.com/leeds9z/discord-voice-bot' },
+  { src: '/images/code.jpg', text: 'competitive programming templates', label: 'c++', path: 'https://github.com/leeds9z/competitive-programing-templates' },
+  { src: '/images/thiswebsite.png', text: 'this website!', label: 'reactjs + css', path: '/' },
+  { src: '/images/monkey.jpg', text: 'monkey voice assistant', label: 'raspberry pi + gtts', path: 'https://github.com/leeds9z/discord-voice-bot' },
 ];
 
 export default function Cards() {

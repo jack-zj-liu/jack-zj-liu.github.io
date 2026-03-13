@@ -16,11 +16,11 @@ export default function Profile() {
               height={400}
             />
             <div className="container">
-              <h2 style={{ color: '#e5e5e7' }}>Jack Liu</h2>
-              <p className="title">Software Engineering @ UWaterloo</p>
-              <p style={{ color: '#9ca3af' }}>Hi! I&apos;m a second year software engineering student at the university of waterloo.</p>
+              <h2 style={{ color: '#e5e5e7' }}>jack liu</h2>
+              <p className="title">software engineering @ uwaterloo</p>
+              <p style={{ color: '#9ca3af' }}>hi! i&apos;m a second year software engineering student at the university of waterloo.</p>
               <p> &nbsp; </p>
-              <p style={{ color: '#9ca3af' }}>Contact me at:</p>
+              <p style={{ color: '#9ca3af' }}>contact me at:</p>
               <p style={{ color: '#7dd3fc' }}>jack.liuzijia@gmail.com</p>
               <p style={{ color: '#7dd3fc' }}>zj5liu@uwaterloo.ca</p>
             </div>

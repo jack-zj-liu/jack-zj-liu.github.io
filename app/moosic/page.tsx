@@ -90,7 +90,7 @@ export default function MoosicPage() {
       allSongsRef.current = await fetchAllPlaylists();
       reshuffle();
     } catch {
-      setError('Could not load playlist. Try refreshing.');
+      setError('could not load playlist. try refreshing.');
     } finally {
       setLoading(false);
     }
@@ -109,7 +109,7 @@ export default function MoosicPage() {
             <button
               type="button"
               onClick={reshuffle}
-              title="Shuffle 15 new songs"
+              title="shuffle 15 new songs"
               style={{
                 background: 'none', border: '1px solid #3a3a40',
                 borderRadius: 8, padding: '6px 10px', cursor: 'pointer',
@@ -132,7 +132,7 @@ export default function MoosicPage() {
           )}
         </div>
         <p style={{ color: '#9ca3af', marginBottom: 32, fontSize: 15 }}>
-          songs i like. click to listen.
+          songs i like. click to listen
         </p>
 
         {loading && (
@@ -148,7 +148,7 @@ export default function MoosicPage() {
 
         {error && (
           <div style={{ textAlign: 'center', padding: '60px 0' }}>
-            <p style={{ color: '#f87171', marginBottom: 16 }}>{error}</p>
+            <p style={{ color: '#f87171', marginBottom: 16, textTransform: 'lowercase' }}>{error}</p>
             <button
               onClick={load}
               type="button"
@@ -158,7 +158,7 @@ export default function MoosicPage() {
                 fontWeight: 600, fontSize: 14,
               }}
             >
-              Retry
+              retry
             </button>
           </div>
         )}
@@ -236,7 +236,7 @@ export default function MoosicPage() {
 
         {!loading && !error && songs.length === 0 && (
           <p style={{ color: '#6b7280', textAlign: 'center', padding: '60px 0' }}>
-            No songs found in this playlist.
+            no songs found in this playlist.
           </p>
         )}
       </div>

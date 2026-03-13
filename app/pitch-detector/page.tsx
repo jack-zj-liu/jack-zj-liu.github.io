@@ -321,7 +321,7 @@ export default function PitchDetectorPage() {
       recentMidiRef.current = [];
       setStatus('running');
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Failed to access microphone';
+      const msg = err instanceof Error ? err.message : 'failed to access microphone';
       setErrorMessage(msg);
       setStatus('error');
     }
@@ -384,7 +384,7 @@ export default function PitchDetectorPage() {
               boxSizing: 'border-box',
             }}
           >
-            {status === 'requesting' ? 'Requesting mic…' : status === 'running' ? 'Listening' : 'Start microphone'}
+            {status === 'requesting' ? 'requesting mic…' : status === 'running' ? 'listening' : 'start microphone'}
           </button>
           {status === 'running' && (
             <button
@@ -403,7 +403,7 @@ export default function PitchDetectorPage() {
                 boxSizing: 'border-box',
               }}
             >
-              Stop
+              stop
             </button>
           )}
         </div>
@@ -452,7 +452,7 @@ export default function PitchDetectorPage() {
             fontSize: 13,
           }}
         >
-          <div style={{ marginBottom: 12, fontWeight: 600, color: '#e5e5e7' }}>Current pitch</div>
+          <div style={{ marginBottom: 12, fontWeight: 600, color: '#e5e5e7' }}>current pitch</div>
           {currentReading ? (
             <div style={{ marginBottom: 16, color: '#7dd3fc' }}>
               <div>{midiToNoteLabel(currentReading.midi)}</div>
@@ -471,11 +471,11 @@ export default function PitchDetectorPage() {
                 onChange={(e) => setBoldGuitarStrings(e.target.checked)}
                 style={{ width: 16, height: 16, accentColor: '#7dd3fc' }}
               />
-              Bold guitar strings (EADGBe)
+              bold guitar strings (eadgbe)
             </label>
-            <div style={{ fontWeight: 600, color: '#e5e5e7', marginBottom: 6 }}>Log</div>
+            <div style={{ fontWeight: 600, color: '#e5e5e7', marginBottom: 6 }}>log</div>
             <div style={{ fontFamily: 'monospace', fontSize: 11, overflow: 'hidden' }}>
-              {logEntries.length === 0 && <div style={{ color: '#6b7280' }}>No entries yet</div>}
+              {logEntries.length === 0 && <div style={{ color: '#6b7280' }}>no entries yet</div>}
               {[...logEntries].slice(-LOG_MAX_ENTRIES).map((entry, i) => (
                 <div key={`${entry.at}-${i}`} style={{ marginBottom: 4, color: '#9ca3af' }}>
                   {midiToNoteLabel(entry.midi)} · {entry.freq.toFixed(0)} Hz

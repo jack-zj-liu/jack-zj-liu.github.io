@@ -4,23 +4,23 @@ import Link from 'next/link';
 
 const TOOLS = [
   {
-    title: 'Pitch Detector',
-    description: 'Real-time pitch detection from your microphone with a scrolling graph.',
+    title: 'pitch detector',
+    description: 'real-time pitch detection from your microphone with a scrolling graph.',
     href: '/pitch-detector',
   },
   {
-    title: 'Emoticons',
-    description: 'Common text emoticons — click to copy, paste anywhere.',
+    title: 'emoticons',
+    description: 'common text emoticons — click to copy, paste anywhere.',
     href: '/emote',
   },
   {
-    title: 'Codenames',
-    description: 'Word packs for the Codenames board game.',
+    title: 'codenames',
+    description: 'word packs for the codenames board game.',
     href: '/codenames',
   },
   {
-    title: 'Moosic',
-    description: 'Songs I like — pulled live from a YouTube playlist.',
+    title: 'moosic',
+    description: 'songs i like — pulled live from a youtube playlist.',
     href: '/moosic',
   },
 ];
@@ -30,7 +30,7 @@ export default function ProjectsPage() {
     <div style={{ minHeight: '100vh', background: '#1f1f23', color: '#e5e5e7', padding: '48px 24px' }}>
       <div style={{ maxWidth: 700, margin: '0 auto' }}>
         <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: 32 }}>
-          To<span style={{ color: '#7dd3fc' }}>ols</span>
+          to<span style={{ color: '#7dd3fc' }}>ols</span>
         </h1>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>

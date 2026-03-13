@@ -19,7 +19,7 @@ export default function CodenamesPage() {
       .then((data) => setFileData(data))
       .catch((err) => {
         console.error('Error loading the pack:', err);
-        setPackText('Error loading text. Please try again later.');
+        setPackText('error loading text. please try again later.');
       });
   }, []);
 
@@ -35,17 +35,17 @@ export default function CodenamesPage() {
       setPackText(combinedText);
       navigator.clipboard.writeText(combinedText)
         .then(() => {
-          setCopyNotification('Combined text copied to clipboard!');
+          setCopyNotification('combined text copied to clipboard!');
           setNotificationPosition({ top: e.clientY + 10, left: e.clientX + 10 });
           setTimeout(() => setCopyNotification(''), 2000);
         })
         .catch(() => {
-          setCopyNotification('Failed to copy text to clipboard.');
+          setCopyNotification('failed to copy text to clipboard.');
           setNotificationPosition({ top: e.clientY + 10, left: e.clientX + 10 });
           setTimeout(() => setCopyNotification(''), 2000);
         });
     } else {
-      setPackText('Combined data not found.');
+      setPackText('combined data not found.');
     }
   };
 
@@ -59,11 +59,11 @@ export default function CodenamesPage() {
       <div className="sidebar">
         {PACKS.map((packName, index) => (
           <button key={packName} type="button" className="button" onClick={() => setActivePack(index)}>
-            {packName.charAt(0).toUpperCase() + packName.slice(1)} Pack
+            {packName} pack
           </button>
         ))}
         <button type="button" className="button" onClick={handleCombinedClick}>
-          Combined
+          combined
         </button>
       </div>
 
@@ -71,7 +71,7 @@ export default function CodenamesPage() {
         {(activePack !== null || packText !== '') && (
           <textarea
             className="textbox full-height"
-            placeholder="Loading just wait :DD"
+            placeholder="loading just wait :DD"
             value={packText}
             onChange={(e) => setPackText(e.target.value)}
           />
