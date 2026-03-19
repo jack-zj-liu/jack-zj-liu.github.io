@@ -23,6 +23,11 @@ const TOOLS = [
     description: 'songs i like — pulled live from a youtube playlist.',
     href: '/moosic',
   },
+  {
+    title: 'metronome',
+    description: 'visual metronome with adjustable BPM, tap tempo, and a swinging pendulum.',
+    href: '/metronome',
+  },
 ];
 
 export default function ProjectsPage() {

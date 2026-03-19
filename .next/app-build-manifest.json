@@ -1,90 +1,31 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/chunks/app/_not-found/page-9042a24b4e105126.js"
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/page.css",
+      "static/chunks/app/page.js"
     ],
     "/layout": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/css/cb8c6f406aa85292.css",
-      "static/chunks/648-f93190bec7204f48.js",
-      "static/chunks/app/layout-fb301c61146020d3.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
-    "/animal/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/chunks/app/animal/page-f777a9347d9a0e14.js"
-    ],
-    "/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/css/fa86c3609c1e0290.css",
-      "static/chunks/648-f93190bec7204f48.js",
-      "static/chunks/app/page-0df0d0625b7916a0.js"
-    ],
-    "/codenames/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/css/3506f195bff65fb5.css",
-      "static/chunks/app/codenames/page-b6d94b029926c004.js"
-    ],
-    "/emote/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/chunks/app/emote/page-e19d943e661e96a9.js"
-    ],
-    "/about/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/css/82075402a001cfc3.css",
-      "static/chunks/878-27a028887861871d.js",
-      "static/chunks/app/about/page-9b61a8c791fd8493.js"
-    ],
-    "/moosic/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/chunks/app/moosic/page-e44e1406dffe2d45.js"
-    ],
-    "/pitch-detector/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/chunks/app/pitch-detector/page-f892e066689cf4aa.js"
-    ],
-    "/resume/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/css/7d66c0df8f3893dc.css",
-      "static/chunks/app/resume/page-00849146d9f34081.js"
+    "/metronome/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/metronome/page.js"
     ],
     "/projects/page": [
-      "static/chunks/webpack-7e0f1926e5891bb4.js",
-      "static/chunks/fd9d1056-42a1c2df9c4a85a8.js",
-      "static/chunks/117-b25838a9c5b96a27.js",
-      "static/chunks/main-app-dbd54b1f1675d57d.js",
-      "static/chunks/648-f93190bec7204f48.js",
-      "static/chunks/app/projects/page-f216811f434c61ef.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/projects/page.js"
+    ],
+    "/moosic/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/moosic/page.js"
     ]
   }
 }
