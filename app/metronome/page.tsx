@@ -34,8 +34,8 @@ const STEP_BTN: React.CSSProperties = {
 };
 
 export default function MetronomePage() {
-  const [bpm, setBpmRaw] = useState(120);
-  const [bpmInput, setBpmInput] = useState('120');
+  const [bpm, setBpmRaw] = useState(90);
+  const [bpmInput, setBpmInput] = useState('90');
   const [playing, setPlaying] = useState(false);
   const [angle, setAngle] = useState(0);
   const [flash, setFlash] = useState(false);
@@ -157,18 +157,28 @@ export default function MetronomePage() {
     return () => cancelAnimationFrame(rafRef.current);
   }, [playing, playClick]);
 
+  const togglePlay = useCallback(() => {
+    setPlaying((p) => {
+      const next = !p;
+      if (timerRemaining !== null) {
+        setTimerRunning(next);
+      }
+      return next;
+    });
+  }, [timerRemaining]);
+
   /* ── keyboard shortcuts ── */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if ((e.target as HTMLElement).tagName === 'INPUT') return;
       if (e.code === 'Space') {
         e.preventDefault();
-        setPlaying((p) => !p);
+        togglePlay();
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, []);
+  }, [togglePlay]);
 
   /* ── practice timer ── */
   useEffect(() => {
@@ -381,7 +391,7 @@ export default function MetronomePage() {
             <div style={{ color: '#9ca3af', fontSize: 14, marginTop: -4 }}>BPM</div>
           </div>
           <button
-            onClick={() => setPlaying(!playing)}
+            onClick={togglePlay}
             style={{
               position: 'absolute',
               right: 'calc(50% - 110px)',
@@ -509,6 +519,9 @@ export default function MetronomePage() {
                   const v = e.target.value.replace(/\D/g, '');
                   setTimerMin(v === '' ? 0 : Math.min(99, Number(v)));
                 }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') { startTimer(); (e.target as HTMLInputElement).blur(); }
+                }}
                 style={{
                   width: 48,
                   background: '#1f1f23',
@@ -532,6 +545,9 @@ export default function MetronomePage() {
                 onChange={(e) => {
                   const v = e.target.value.replace(/\D/g, '');
                   setTimerSec(v === '' ? 0 : Math.min(59, Number(v)));
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') { startTimer(); (e.target as HTMLInputElement).blur(); }
                 }}
                 style={{
                   width: 48,
