@@ -19,7 +19,7 @@ yarn-error.log*
 # Local env
 .env
 .env*.local
-public/private-lyrics/*.txt
+# public/private-lyrics/*.txt
 
 # Vercel
 .vercel
