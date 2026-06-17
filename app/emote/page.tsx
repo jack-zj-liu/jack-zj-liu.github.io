@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface Emoticon {
   label: string;
@@ -125,6 +125,14 @@ const SECTIONS: Section[] = [
 
 export default function EmotePage() {
   const [copied, setCopied] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 700);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const handleCopy = useCallback(async (text: string, key: string) => {
     try {
@@ -146,9 +154,9 @@ export default function EmotePage() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1f1f23', color: '#e5e5e7', padding: '48px 24px' }}>
+    <div style={{ minHeight: '100vh', background: 'transparent', color: '#e5e5e7', padding: isMobile ? '20px 10px 28px' : '48px 24px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: 8 }}>
+        <h1 style={{ fontSize: isMobile ? '1.75rem' : '2rem', fontWeight: 700, marginBottom: 8 }}>
           emot<span style={{ color: '#7dd3fc' }}>icons</span>
         </h1>
         <p style={{ color: '#9ca3af', marginBottom: 36, fontSize: 15 }}>
@@ -160,7 +168,7 @@ export default function EmotePage() {
             <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#7dd3fc', marginBottom: 14 }}>
               {section.title}
             </h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: isMobile ? 10 : 14 }}>
               {section.items.map((e) => {
                 const key = `${section.title}-${e.label}`;
                 const isCopied = copied === key;
@@ -174,26 +182,27 @@ export default function EmotePage() {
                       flexDirection: 'column',
                       alignItems: 'center',
                       gap: 6,
-                      padding: '14px 18px',
-                      background: isCopied ? '#1e3a5f' : '#2a2a2e',
-                      border: `1px solid ${isCopied ? '#7dd3fc' : '#3a3a40'}`,
+                      padding: isMobile ? '10px 12px' : '14px 18px',
+                      background: isCopied ? 'rgba(30, 58, 95, 0.78)' : 'rgba(12, 30, 44, 0.44)',
+                      border: `1px solid ${isCopied ? '#7dd3fc' : 'rgba(186, 230, 253, 0.28)'}`,
                       borderRadius: 12,
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
-                      minWidth: 110,
+                      minWidth: isMobile ? 92 : 110,
                       boxShadow: isCopied ? '0 0 16px rgba(125, 211, 252, 0.35)' : 'none',
+                      backdropFilter: 'blur(6px)',
                     }}
                     onMouseEnter={(ev) => {
                       if (!isCopied) {
                         ev.currentTarget.style.borderColor = '#7dd3fc';
-                        ev.currentTarget.style.background = '#2f2f34';
+                        ev.currentTarget.style.background = 'rgba(35, 56, 68, 0.56)';
                         ev.currentTarget.style.boxShadow = '0 0 12px rgba(125, 211, 252, 0.15)';
                       }
                     }}
                     onMouseLeave={(ev) => {
                       if (!isCopied) {
-                        ev.currentTarget.style.borderColor = '#3a3a40';
-                        ev.currentTarget.style.background = '#2a2a2e';
+                        ev.currentTarget.style.borderColor = 'rgba(186, 230, 253, 0.28)';
+                        ev.currentTarget.style.background = 'rgba(12, 30, 44, 0.44)';
                         ev.currentTarget.style.boxShadow = 'none';
                       }
                     }}

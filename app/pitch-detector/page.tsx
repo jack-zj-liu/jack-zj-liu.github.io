@@ -11,14 +11,13 @@ const VOICE_FREQ_MAX = 1200;
 const BOUNDARY_MARGIN = 0.03; // reject freq within 3% of min/max (detector stuck at edge)
 const RMS_THRESHOLD = 0.006; // lower = pick up quieter sound (normalized float)
 const BAR_HEIGHT = 56;
-const SIDEBAR_WIDTH = 220;
+const SIDEBAR_WIDTH = 200;
 const LABEL_WIDTH = 44;
 const PADDING = { top: 12, right: 12, bottom: 12, left: LABEL_WIDTH };
 const LABEL_INSET = 10;
 const APP_INSET = 14;
-const PIXELS_PER_SEMITONE = 36;
+const PIXELS_PER_SEMITONE = 30;
 const MIDI_SPAN = MIDI_MAX - MIDI_MIN + 1;
-const CANVAS_HEIGHT = PADDING.top + PADDING.bottom + MIDI_SPAN * PIXELS_PER_SEMITONE;
 const LOG_MAX_ENTRIES = 5;
 
 const GUITAR_STRING_MIDI = new Set([40, 45, 50, 55, 59, 64]);
@@ -79,6 +78,7 @@ export default function PitchDetectorPage() {
   const [currentReading, setCurrentReading] = useState<{ freq: number; midi: number; note: string } | null>(null);
   const [logEntries, setLogEntries] = useState<Array<{ freq: number; midi: number; note: string; at: number }>>([]);
   const [boldGuitarStrings, setBoldGuitarStrings] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const lastLogTimeRef = useRef(0);
   const streamRef = useRef<MediaStream | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -87,11 +87,13 @@ export default function PitchDetectorPage() {
   const recentMidiRef = useRef<number[]>([]);
   const rafRef = useRef<number>(0);
   const detectPitchRef = useRef<((samples: Float32Array) => number | null) | null>(null);
+  const canvasHeight = PADDING.top + PADDING.bottom + MIDI_SPAN * (isMobile ? 22 : PIXELS_PER_SEMITONE);
 
   // Resize: only horizontal canvas min width from viewport; height is fixed from zoom
   useEffect(() => {
     const updateSize = () => {
-      setCanvasMinWidth(Math.max(400, window.innerWidth - SIDEBAR_WIDTH - LABEL_WIDTH));
+      setIsMobile(window.innerWidth <= 900);
+      setCanvasMinWidth(Math.max(300, window.innerWidth - SIDEBAR_WIDTH - LABEL_WIDTH - 36));
     };
     updateSize();
     window.addEventListener('resize', updateSize);
@@ -249,16 +251,16 @@ export default function PitchDetectorPage() {
         canvas.width = newWidth;
         canvas.style.width = `${newWidth}px`;
       }
-      canvas.height = CANVAS_HEIGHT;
+      canvas.height = canvasHeight;
 
       draw(ctx, canvas.width, canvas.height, currentMidi, aboveGate, boldGuitarStrings);
 
       const labelCanvas = labelCanvasRef.current;
       if (labelCanvas) {
         labelCanvas.width = LABEL_WIDTH;
-        labelCanvas.height = CANVAS_HEIGHT;
+        labelCanvas.height = canvasHeight;
         const labelCtx = labelCanvas.getContext('2d');
-        if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT, boldGuitarStrings);
+        if (labelCtx) drawLabels(labelCtx, canvasHeight, boldGuitarStrings);
       }
 
       // Keep scrolled to the right so newest pitch is visible
@@ -269,7 +271,7 @@ export default function PitchDetectorPage() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [status, draw, drawLabels, canvasMinWidth, boldGuitarStrings]);
+  }, [status, draw, drawLabels, canvasMinWidth, boldGuitarStrings, canvasHeight]);
 
   // Draw grid when idle and canvas size changes (so screen isn’t blank)
   useEffect(() => {
@@ -278,16 +280,16 @@ export default function PitchDetectorPage() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     canvas.width = canvasMinWidth;
-    canvas.height = CANVAS_HEIGHT;
+    canvas.height = canvasHeight;
     draw(ctx, canvas.width, canvas.height, null, false, boldGuitarStrings);
     const labelCanvas = labelCanvasRef.current;
     if (labelCanvas) {
       labelCanvas.width = LABEL_WIDTH;
-      labelCanvas.height = CANVAS_HEIGHT;
+      labelCanvas.height = canvasHeight;
       const labelCtx = labelCanvas.getContext('2d');
-      if (labelCtx) drawLabels(labelCtx, CANVAS_HEIGHT, boldGuitarStrings);
+      if (labelCtx) drawLabels(labelCtx, canvasHeight, boldGuitarStrings);
     }
-  }, [status, canvasMinWidth, draw, drawLabels, boldGuitarStrings]);
+  }, [status, canvasMinWidth, draw, drawLabels, boldGuitarStrings, canvasHeight]);
 
   const startMic = useCallback(async () => {
     setStatus('requesting');
@@ -349,8 +351,34 @@ export default function PitchDetectorPage() {
   }, [stopMic]);
 
   return (
-    <div className="pitch-detector-app" style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#1f1f23', color: '#e5e5e7', overflow: 'hidden', boxSizing: 'border-box' }}>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: '#2a2a2e', border: '1px solid #3a3a40', borderRadius: 8, margin: APP_INSET, overflow: 'hidden', minHeight: 0 }}>
+    <div
+      className="pitch-detector-app"
+      style={{
+        minHeight: 'calc(100vh - 140px)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        background: 'transparent',
+        color: '#e5e5e7',
+        boxSizing: 'border-box',
+        padding: isMobile ? '10px 0 14px' : '18px 0 24px',
+      }}
+    >
+      <div
+        style={{
+          width: isMobile ? 'min(1120px, calc(100% - 12px))' : 'min(1120px, calc(100% - 28px))',
+          height: isMobile ? 'min(66vh, 620px)' : 'min(72vh, 760px)',
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'rgba(12, 30, 44, 0.44)',
+          border: '1px solid rgba(186, 230, 253, 0.28)',
+          backdropFilter: 'blur(8px)',
+          borderRadius: 8,
+          margin: `${APP_INSET}px auto`,
+          overflow: 'hidden',
+          minHeight: 0,
+        }}
+      >
       {/* Top bar: title + buttons */}
       <div
         style={{
@@ -380,7 +408,7 @@ export default function PitchDetectorPage() {
               borderRadius: 6,
               cursor: status === 'running' ? 'default' : 'pointer',
               fontWeight: 600,
-              fontSize: 14,
+              fontSize: isMobile ? 12 : 14,
               boxSizing: 'border-box',
             }}
           >
@@ -399,7 +427,7 @@ export default function PitchDetectorPage() {
                 borderRadius: 6,
                 cursor: 'pointer',
                 fontWeight: 600,
-                fontSize: 14,
+                fontSize: isMobile ? 12 : 14,
                 boxSizing: 'border-box',
               }}
             >
@@ -419,20 +447,20 @@ export default function PitchDetectorPage() {
             minWidth: 0,
             minHeight: 0,
             overflow: 'auto',
-            background: '#2a2a2e',
+            background: 'rgba(20, 44, 60, 0.36)',
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'row', width: 'max-content', minWidth: '100%' }}>
             <canvas
               ref={labelCanvasRef}
               width={LABEL_WIDTH}
-              height={CANVAS_HEIGHT}
+              height={canvasHeight}
               style={{ display: 'block', position: 'sticky', left: 0, zIndex: 1, flexShrink: 0 }}
             />
             <canvas
               ref={canvasRef}
               width={canvasMinWidth}
-              height={CANVAS_HEIGHT}
+              height={canvasHeight}
               style={{ display: 'block', flexShrink: 0 }}
             />
           </div>
@@ -441,11 +469,11 @@ export default function PitchDetectorPage() {
         {/* Sidebar: current pitch + log */}
         <div
           style={{
-            width: SIDEBAR_WIDTH,
+            width: isMobile ? 170 : SIDEBAR_WIDTH,
             flexShrink: 0,
-            background: '#252529',
-            borderLeft: '1px solid #3a3a40',
-            padding: 12,
+            background: 'rgba(14, 35, 49, 0.42)',
+            borderLeft: '1px solid rgba(186, 230, 253, 0.18)',
+            padding: isMobile ? 8 : 12,
             overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',

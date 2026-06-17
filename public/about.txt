@@ -1,0 +1,8 @@
+about.txt
+about page and background.
+destination: /about
+
+./hello.txt
+./tools.txt
+./lyrics.txt
+./resume.txt

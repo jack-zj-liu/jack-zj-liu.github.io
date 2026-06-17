@@ -1,5 +1,7 @@
 {
-  "/page": "app/page.js",
   "/projects/page": "app/projects/page.js",
-  "/metronome/page": "app/metronome/page.js"
+  "/page": "app/page.js",
+  "/lyrics/page": "app/lyrics/page.js",
+  "/text-to-bytes/page": "app/text-to-bytes/page.js",
+  "/emote/page": "app/emote/page.js"
 }

@@ -3,7 +3,7 @@ import './Profile.css';
 
 export default function Profile() {
   return (
-    <div style={{ minHeight: '100vh', background: '#1f1f23', padding: '24px 0' }}>
+    <div style={{ minHeight: '100vh', padding: '24px 0' }}>
       <div className="row">
         <div className="column">
           <div className="card">

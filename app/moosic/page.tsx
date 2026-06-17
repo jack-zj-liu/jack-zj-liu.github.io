@@ -77,7 +77,15 @@ export default function MoosicPage() {
   const [songs, setSongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const allSongsRef = useRef<Song[]>([]);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 720);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const reshuffle = useCallback(() => {
     setSongs(shuffle(allSongsRef.current).slice(0, DISPLAY_COUNT));
@@ -99,10 +107,10 @@ export default function MoosicPage() {
   useEffect(() => { load(); }, [load]);
 
   return (
-    <div style={{ minHeight: '100vh', background: '#1f1f23', color: '#e5e5e7', padding: '48px 24px' }}>
+    <div style={{ minHeight: '100vh', background: '#1f1f23', color: '#e5e5e7', padding: isMobile ? '20px 12px 28px' : '48px 24px' }}>
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 8 }}>
-          <h1 style={{ fontSize: '2rem', fontWeight: 700, margin: 0 }}>
+          <h1 style={{ fontSize: isMobile ? '1.75rem' : '2rem', fontWeight: 700, margin: 0 }}>
             moo<span style={{ color: '#7dd3fc' }}>sic</span>
           </h1>
           {!loading && !error && (
@@ -166,7 +174,7 @@ export default function MoosicPage() {
         {!loading && !error && (
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(260px, 1fr))',
             gap: 16,
           }}>
             {songs.map((s) => (

@@ -1,13 +1,46 @@
 .pdf-container {
-  overflow: hidden;
   background: #1f1f23;
+  min-height: calc(100vh - 140px);
+  padding: 16px 14px 26px;
 }
 
 .pdf-container embed {
   width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: calc(100vh - 220px);
+  min-height: 540px;
   border: none;
+  border-radius: 12px;
+  background: #2a2a2e;
+}
+
+.pdf-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.pdf-open-link {
+  color: #7dd3fc;
+  text-decoration: none;
+  border: 1px solid #3a4450;
+  background: #252a30;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 700px) {
+  .pdf-container {
+    padding: 10px 8px 16px;
+    min-height: calc(100vh - 120px);
+  }
+
+  .pdf-container embed {
+    height: calc(100vh - 180px);
+    min-height: 420px;
+  }
+
+  .pdf-toolbar {
+    justify-content: center;
+  }
 }

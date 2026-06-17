@@ -1,0 +1,10 @@
+hello.txt
+jack liu
+software engineering student building small tools, music experiments, and web projects.
+
+i like simple interfaces, clean code, and things that feel calm to use.
+
+./tools.txt
+./lyrics.txt
+./about.txt
+./resume.txt

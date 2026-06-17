@@ -1,0 +1,8 @@
+resume.txt
+resume link file.
+destination: /images/resume_2026feb.pdf
+
+./hello.txt
+./tools.txt
+./lyrics.txt
+./about.txt

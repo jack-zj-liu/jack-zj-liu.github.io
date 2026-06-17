@@ -1,0 +1,8 @@
+lyrics.txt
+lyrics notebook with a left song panel and centered lyric view.
+destination: /lyrics
+
+./hello.txt
+./tools.txt
+./about.txt
+./resume.txt

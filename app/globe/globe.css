@@ -1,0 +1,111 @@
+.globe-page {
+  min-height: calc(100vh - 70px);
+  background: var(--bg-dark, #1f1f23);
+  color: var(--text, #e5e5e7);
+  padding: 48px 24px 64px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.globe-page__box {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border, #3a3a40);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--card-shadow, 0px 8px 32px -8px rgba(125, 211, 252, 0.08));
+  background: var(--bg-card, #2a2a2e);
+  height: min(78vh, 720px);
+  min-height: 480px;
+}
+
+.globe-page__box-header {
+  flex-shrink: 0;
+  padding: 20px 24px 18px;
+}
+
+.globe-page__box-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.globe-page__box-header .text-gradient {
+  display: inline;
+}
+
+.globe-page__subtitle {
+  font-size: 15px;
+  color: var(--text-muted, #9ca3af);
+  line-height: 1.55;
+  max-width: 62ch;
+  margin: 0;
+}
+
+.globe-page__canvas-wrap {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: clamp(240px, 42vh, 520px);
+  border-top: 1px solid var(--border, #3a3a40);
+}
+
+/* Fills the flex row so R3F Canvas always gets non-zero width/height */
+.globe-page__canvas-inner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.globe-page__canvas-loading {
+  background: linear-gradient(105deg, #252932 0%, #2a2f3a 40%, #252932 80%);
+  background-size: 200% 100%;
+  animation: globe-shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes globe-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.globe-page__hint {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 12px 20px 16px;
+  font-size: 13px;
+  color: var(--text-muted, #9ca3af);
+  text-align: center;
+  border-top: 1px solid var(--border, #3a3a40);
+  background: rgba(31, 31, 35, 0.35);
+}
+
+@media screen and (max-width: 600px) {
+  .globe-page {
+    padding: 32px 16px 48px;
+  }
+
+  .globe-page__box {
+    height: min(82vh, 640px);
+    min-height: 420px;
+  }
+
+  .globe-page__canvas-wrap {
+    min-height: clamp(200px, 38vh, 420px);
+  }
+
+  .globe-page__box-header {
+    padding: 16px 16px 14px;
+  }
+
+  .globe-page__box-header h1 {
+    font-size: 1.65rem;
+  }
+}

@@ -1,0 +1,8 @@
+tools.txt
+projects and mini apps index.
+destination: /projects
+
+./hello.txt
+./lyrics.txt
+./about.txt
+./resume.txt

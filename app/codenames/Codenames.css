@@ -24,8 +24,9 @@
   flex-direction: column;
   align-items: center;
   width: 150px;
-  background-color: rgba(31, 31, 35, 0.9);
-  border-right: 1px solid #3a3a40;
+  background: rgba(12, 30, 44, 0.44);
+  border-right: 1px solid rgba(186, 230, 253, 0.28);
+  backdrop-filter: blur(8px);
   padding: 20px 0;
   position: fixed;
   top: 0;
@@ -40,8 +41,8 @@
   margin: 5px 0;
   font-size: 16px;
   cursor: pointer;
-  border: 1px solid #3a3a40;
-  background-color: #2a2a2e;
+  border: 1px solid rgba(186, 230, 253, 0.24);
+  background: rgba(12, 30, 44, 0.4);
   color: #e5e5e7;
   border-radius: 6px;
   transition: all 0.2s ease;
@@ -67,11 +68,12 @@
   z-index: 1;
   overflow: hidden;
   width: calc(100% - 150px);
+  background: rgba(10, 26, 38, 0.16);
 }
 
 .textbox {
-  background-color: rgba(42, 42, 46, 0.92);
-  border: 1px solid #3a3a40;
+  background: rgba(12, 30, 44, 0.44);
+  border: 1px solid rgba(186, 230, 253, 0.28);
   border-radius: 8px;
   outline: none;
   font-size: 16px;
@@ -82,6 +84,7 @@
   resize: none;
   box-sizing: border-box;
   margin: 0 auto;
+  backdrop-filter: blur(8px);
 }
 
 .textbox.full-height:focus {

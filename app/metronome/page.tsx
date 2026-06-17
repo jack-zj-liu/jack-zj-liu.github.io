@@ -39,6 +39,7 @@ export default function MetronomePage() {
   const [playing, setPlaying] = useState(false);
   const [angle, setAngle] = useState(0);
   const [flash, setFlash] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const [timerMin, setTimerMin] = useState(0);
   const [timerSec, setTimerSec] = useState(0);
@@ -58,6 +59,13 @@ export default function MetronomePage() {
   const tapTimesRef = useRef<number[]>([]);
 
   bpmRef.current = bpm;
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 760);
+    onResize();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const clampBpm = (v: number) => Math.max(MIN_BPM, Math.min(MAX_BPM, Math.round(v)));
 
@@ -279,11 +287,11 @@ export default function MetronomePage() {
         minHeight: '100vh',
         background: '#1f1f23',
         color: '#e5e5e7',
-        padding: '48px 24px',
+        padding: isMobile ? '22px 10px 28px' : '48px 24px',
       }}
     >
       <div style={{ maxWidth: 840, margin: '0 auto', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: 8 }}>
+        <h1 style={{ fontSize: isMobile ? '1.75rem' : '2rem', fontWeight: 700, marginBottom: 8 }}>
           metro<span style={{ color: '#7dd3fc' }}>nome</span>
         </h1>
         {/* ── pendulum visual ── */}
@@ -292,8 +300,8 @@ export default function MetronomePage() {
             background: '#2a2a2e',
             border: '1px solid #3a3a40',
             borderRadius: 16,
-            padding: '24px 16px 16px',
-            marginBottom: 32,
+            padding: isMobile ? '14px 10px 12px' : '24px 16px 16px',
+            marginBottom: isMobile ? 20 : 32,
             boxShadow: flash
               ? '0 0 32px rgba(125, 211, 252, 0.3)'
               : '0 4px 24px rgba(0,0,0,0.3)',
@@ -380,10 +388,10 @@ export default function MetronomePage() {
                 background: 'transparent',
                 border: 'none',
                 color: '#7dd3fc',
-                fontSize: '3rem',
+                fontSize: isMobile ? '2.4rem' : '3rem',
                 fontWeight: 700,
                 textAlign: 'center',
-                width: 140,
+                width: isMobile ? 112 : 140,
                 outline: 'none',
                 fontFamily: 'inherit',
               }}
@@ -394,11 +402,11 @@ export default function MetronomePage() {
             onClick={togglePlay}
             style={{
               position: 'absolute',
-              right: 'calc(50% - 110px)',
+              right: isMobile ? 'calc(50% - 95px)' : 'calc(50% - 110px)',
               top: '50%',
               transform: 'translateY(-50%)',
-              width: 48,
-              height: 48,
+              width: isMobile ? 42 : 48,
+              height: isMobile ? 42 : 48,
               background: playing ? '#dc2626' : '#7dd3fc',
               color: playing ? '#fff' : '#1f1f23',
               border: 'none',
@@ -421,8 +429,8 @@ export default function MetronomePage() {
             display: 'flex',
             alignItems: 'center',
             gap: 12,
-            marginBottom: 28,
-            padding: '0 8px',
+            marginBottom: isMobile ? 18 : 28,
+            padding: isMobile ? '0 4px' : '0 8px',
           }}
         >
           <button onClick={() => setBpm(clampBpm(bpm - 1))} style={STEP_BTN}>
@@ -447,14 +455,14 @@ export default function MetronomePage() {
             background: '#2a2a2e',
             border: '1px solid #3a3a40',
             borderRadius: 12,
-            padding: '16px 20px',
-            marginBottom: 28,
+            padding: isMobile ? '12px 10px' : '16px 20px',
+            marginBottom: isMobile ? 20 : 28,
           }}
         >
           {timerRemaining !== null ? (
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 12 }}>
-                <span style={{ fontSize: '2rem', fontWeight: 700, color: '#7dd3fc', fontVariantNumeric: 'tabular-nums' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: isMobile ? '1.6rem' : '2rem', fontWeight: 700, color: '#7dd3fc', fontVariantNumeric: 'tabular-nums' }}>
                   {formatTime(timerRemaining)}
                 </span>
                 <button
@@ -506,7 +514,7 @@ export default function MetronomePage() {
               </div>
             </div>
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}>
               <span style={{ color: '#9ca3af', fontSize: 13, fontWeight: 600, marginRight: 4 }}>
                 practice timer
               </span>
