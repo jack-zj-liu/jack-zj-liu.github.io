@@ -154,7 +154,7 @@ export default function LyricsClient({ songs }: LyricsClientProps) {
                 <h1
                   style={{
                     margin: 0,
-                    fontSize: isMobile ? 26 : 32,
+                    fontSize: isMobile ? 32 : 42,
                     textTransform: 'lowercase',
                     color: '#93c5fd',
                   }}
@@ -170,7 +170,7 @@ export default function LyricsClient({ songs }: LyricsClientProps) {
                     whiteSpace: 'pre-wrap',
                     fontFamily: 'inherit',
                     lineHeight: 1.8,
-                    fontSize: isMobile ? 15 : 16,
+                    fontSize: isMobile ? 18 : 21,
                     color: '#e4e4e7',
                   }}
                 >
