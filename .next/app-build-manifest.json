@@ -16,11 +16,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/projects/page.js"
     ],
-    "/positions/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/positions/page.js"
-    ],
     "/qr-code/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
