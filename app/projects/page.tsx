@@ -19,6 +19,11 @@ const TOOLS = [
     href: '/codenames',
   },
   {
+    title: 'positions',
+    description: 'portfolio allocation pie chart and individual holdings from latest csv.',
+    href: '/positions',
+  },
+  {
     title: 'moosic',
     description: 'songs i like — pulled live from a youtube playlist.',
     href: '/moosic',
@@ -27,6 +32,11 @@ const TOOLS = [
     title: 'text to bytes',
     description: 'convert any text into UTF-8 decimal or hex byte streams.',
     href: '/text-to-bytes',
+  },
+  {
+    title: 'qr code',
+    description: 'encode text into a large qr image and copy it to clipboard.',
+    href: '/qr-code',
   },
   {
     title: 'metronome',

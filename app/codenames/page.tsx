@@ -4,7 +4,33 @@ import { useState, useEffect } from 'react';
 import './Codenames.css';
 
 const PACKS = ['nico', 'justin', 'ethan', 'david', 'jack'];
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxTk3od7Ax1ExyVXdYQ406zY-RK4ypXd-6bwn3eP-kQR92MhBg7_RxUwoRCi9tlpJ8/exec';
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxHm7wiez7n8YiCq3Po-ywNRH7MwMgqcychX9CMFjLNkTmRDla51lGge0X39FquVWZP/exec';
+
+function normalizeApiResponse(payload: unknown): Record<string, string[]> {
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('invalid API response');
+  }
+
+  const response = payload as Record<string, unknown>;
+  const maybeData = response.data;
+  const source =
+    maybeData && typeof maybeData === 'object'
+      ? (maybeData as Record<string, unknown>)
+      : response;
+
+  const normalized: Record<string, string[]> = {};
+  for (const [key, value] of Object.entries(source)) {
+    if (Array.isArray(value)) {
+      normalized[key] = value.map((entry) => String(entry));
+    }
+  }
+
+  if (Object.keys(normalized).length === 0) {
+    throw new Error('no pack data found in API response');
+  }
+
+  return normalized;
+}
 
 export default function CodenamesPage() {
   const [activePack, setActivePack] = useState<number | null>(null);
@@ -14,13 +40,29 @@ export default function CodenamesPage() {
   const [notificationPosition, setNotificationPosition] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
-    fetch(WEB_APP_URL)
-      .then((res) => res.json())
-      .then((data) => setFileData(data))
-      .catch((err) => {
+    const loadPacks = async () => {
+      try {
+        const res = await fetch(WEB_APP_URL);
+        if (!res.ok) {
+          throw new Error(`request failed with HTTP ${res.status}`);
+        }
+
+        const contentType = res.headers.get('content-type') ?? '';
+        if (!contentType.includes('application/json')) {
+          throw new Error(`unexpected response type: ${contentType || 'unknown'}`);
+        }
+
+        const data = await res.json();
+        const normalized = normalizeApiResponse(data);
+        setFileData(normalized);
+      } catch (err) {
         console.error('Error loading the pack:', err);
-        setPackText('error loading text. please try again later.');
-      });
+        const message = err instanceof Error ? err.message : 'unknown error';
+        setPackText(`error loading text: ${message}`);
+      }
+    };
+
+    loadPacks();
   }, []);
 
   useEffect(() => {

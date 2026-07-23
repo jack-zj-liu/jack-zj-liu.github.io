@@ -1,4 +1,6 @@
 {
+  "/qr-code/page": "app/qr-code/page.js",
   "/projects/page": "app/projects/page.js",
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/positions/page": "app/positions/page.js"
 }
