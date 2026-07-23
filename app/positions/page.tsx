@@ -152,7 +152,7 @@ function parseRows(rows: string[][]): ParseResult {
   }
 
   const portfolios: AccountPortfolio[] = [];
-  for (const [accountId, bucket] of buckets.entries()) {
+  buckets.forEach((bucket, accountId) => {
     bucket.rawPositions.sort((a, b) => b.value - a.value);
     const total = bucket.rawPositions.reduce((sum, position) => sum + position.value, 0);
     const positions = bucket.rawPositions.map((position) => ({
@@ -164,7 +164,7 @@ function parseRows(rows: string[][]): ParseResult {
       positions,
       pendingAdjustment: bucket.pendingAdjustment,
     });
-  }
+  });
 
   return { portfolios };
 }
