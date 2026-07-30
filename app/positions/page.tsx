@@ -189,6 +189,10 @@ export default function PositionsPage() {
   const [updatedAt, setUpdatedAt] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [apiPassword, setApiPassword] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [unlockLoading, setUnlockLoading] = useState(false);
   const [sortMode, setSortMode] = useState<'alphabetical' | 'allocation' | 'gainLoss'>('allocation');
   const [hoveredSliceIndex, setHoveredSliceIndex] = useState<number | null>(null);
   const [selectedSliceIndex, setSelectedSliceIndex] = useState<number | null>(null);
@@ -197,18 +201,32 @@ export default function PositionsPage() {
   const pieRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (!apiPassword) {
+      setLoading(false);
+      setPortfolios([]);
+      setError('');
+      return;
+    }
+
     const loadPositions = async () => {
       setLoading(true);
       setError('');
 
       try {
-        const response = await fetch(POSITIONS_API_URL, { cache: 'no-store' });
+        const authUrl = `${POSITIONS_API_URL}?password=${encodeURIComponent(apiPassword)}`;
+        const response = await fetch(authUrl, { cache: 'no-store' });
         if (!response.ok) {
           throw new Error(`request failed with HTTP ${response.status}`);
         }
 
         const data = (await response.json()) as PositionsApiResponse;
         if (!data.ok) {
+          if ((data.error || '').toLowerCase() === 'unauthorized') {
+            setApiPassword('');
+            setPortfolios([]);
+            setPasswordError('wrong password');
+            return;
+          }
           throw new Error(data.error || 'API returned an error');
         }
 
@@ -239,7 +257,7 @@ export default function PositionsPage() {
     };
 
     loadPositions();
-  }, []);
+  }, [apiPassword]);
 
   useEffect(() => {
     if (!portfolios.some((portfolio) => portfolio.accountId === activeAccountId)) {
@@ -378,6 +396,115 @@ export default function PositionsPage() {
     setHoveredSliceIndex(null);
     setHoverPosition(null);
   };
+
+  const handleUnlock = async () => {
+    const password = passwordInput.trim();
+    if (!password) {
+      setPasswordError('enter a password');
+      return;
+    }
+
+    setUnlockLoading(true);
+    setPasswordError('');
+
+    try {
+      const authUrl = `${POSITIONS_API_URL}?password=${encodeURIComponent(password)}`;
+      const response = await fetch(authUrl, { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`request failed with HTTP ${response.status}`);
+      }
+
+      const data = (await response.json()) as PositionsApiResponse;
+      if (!data.ok) {
+        setPasswordError('wrong password');
+        return;
+      }
+
+      setApiPassword(password);
+    } catch {
+      setPasswordError('unable to verify password right now');
+    } finally {
+      setUnlockLoading(false);
+    }
+  };
+
+  if (!apiPassword) {
+    return (
+      <main
+        style={{
+          minHeight: '100vh',
+          padding: 'clamp(18px, 4vw, 36px) clamp(12px, 4vw, 24px)',
+          color: '#e5e7eb',
+          display: 'grid',
+          placeItems: 'center',
+        }}
+      >
+        <section
+          style={{
+            width: 'min(560px, 100%)',
+            background: 'rgba(12, 30, 44, 0.44)',
+            border: '1px solid rgba(186, 230, 253, 0.28)',
+            borderRadius: 12,
+            boxShadow: '0 4px 16px rgba(125, 211, 252, 0.08)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            padding: 'clamp(16px, 4vw, 24px)',
+            display: 'grid',
+            gap: 10,
+          }}
+        >
+          <h1 style={{ margin: 0, color: '#7dd3fc', fontSize: 'clamp(1.2rem, 3.5vw, 1.8rem)' }}>
+            positions locked
+          </h1>
+          <p style={{ margin: 0, color: '#bfdbed', fontSize: 14 }}>
+            enter the API password to fetch portfolio data.
+          </p>
+          <input
+            type="password"
+            value={passwordInput}
+            onChange={(event) => {
+              setPasswordInput(event.target.value);
+              if (passwordError) setPasswordError('');
+            }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') void handleUnlock();
+            }}
+            placeholder="password"
+            style={{
+              width: '100%',
+              borderRadius: 10,
+              border: '1px solid rgba(186, 230, 253, 0.28)',
+              background: 'rgba(10, 26, 38, 0.42)',
+              color: '#e5f5f3',
+              fontSize: 14,
+              padding: '10px 12px',
+              outline: 'none',
+            }}
+          />
+          {passwordError && <p style={{ margin: 0, color: '#fca5a5', fontSize: 13 }}>{passwordError}</p>}
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+              type="button"
+              onClick={() => void handleUnlock()}
+              disabled={unlockLoading}
+              style={{
+                borderRadius: 8,
+                border: '1px solid rgba(186, 230, 253, 0.28)',
+                background: 'rgba(10, 26, 38, 0.42)',
+                color: '#d9f0fb',
+                padding: '8px 12px',
+                fontSize: 13,
+                cursor: unlockLoading ? 'not-allowed' : 'pointer',
+                opacity: unlockLoading ? 0.72 : 1,
+              }}
+            >
+              {unlockLoading ? 'checking...' : 'unlock'}
+            </button>
+          </div>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main style={{ minHeight: '100vh', padding: 'clamp(18px, 4vw, 36px) clamp(12px, 4vw, 24px)', color: '#e5e7eb' }}>
